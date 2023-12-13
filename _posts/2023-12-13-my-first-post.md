@@ -1,3 +1,7 @@
+---
+layout: post
+---
+
 |修订历史            |修订原因|修订者|
 |-------------------|-----------------|-------------|
 |2023.10.30|初步文档|wty|
@@ -31,7 +35,7 @@ WGS减少了不适配参数和方法的rule的使用.<br>
 **WES/Panel: /data/wangty/JXH_test_tmp/work_test.<br>**
 **WGS:  /data/wangty/JXH_test_tmp/work_test_WGS**
 
-```bash
+~~~~~~~ bash
 python3 extract_the_sample_list.py -h
  
 usage: extract_the_sample_list.py [-h] --path PATH
@@ -42,7 +46,7 @@ optional arguments:
   -h, --help            show this help message and exit
   --path PATH, -p PATH  The clean sequencing data path, abs path is
                         recommended
-```
+~~~~~~~
 
 运行命令：`python3 extract_the_sample_list.py --path {abs path of squence data}`
 
