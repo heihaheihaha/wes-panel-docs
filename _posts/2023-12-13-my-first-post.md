@@ -30,9 +30,8 @@ WGS减少了不适配参数和方法的rule的使用.<br>
 **流程路径.<br>**
 **WES/Panel: /data/wangty/JXH_test_tmp/work_test.<br>**
 **WGS:  /data/wangty/JXH_test_tmp/work_test_WGS**
-```
 
-
+```bash
 python3 extract_the_sample_list.py -h
  
 usage: extract_the_sample_list.py [-h] --path PATH
@@ -49,7 +48,7 @@ optional arguments:
 
 生成分析样本的Json文件
 ## 查看json 是否成功生成
-```
+```bash
 less -S All_sample.json
 
 EX:
@@ -87,7 +86,7 @@ EX:
 除运行所用核心数外，本流程所有参数集中在`config.yml`中设置.<br>**使用前需要设置工作目录** .<br>**在课题组服务器上直接使用的时候，可以直接使用/data/wangty/JXH_test_tmp/work_test/bin or database.**
 
 Example of config.yaml:
-```
+```yaml
 # config file
 #
 # # The requried files
@@ -140,7 +139,7 @@ chr1 235 599
 后期可以建立一个基因与基因组坐标对应的库，后续只需要提供基因名称，记得得到它的全部外显子坐标或者完整坐标
 ```
 安装完相关环境后：
-```
+```bash
 /PATH/TO/SANKEMAKE_ENV/snakemake --cores 48 --use-conda
 ```
 可根据实际可使用的核心数修改`--cores 48`
@@ -176,7 +175,7 @@ WES/Panel/WGE
 ### Software managed by Snakemake-conda
 以下软件会在第一次运行Snakemake流程时自动安装。
 ⚠️⚠️⚠️ _**HPC用户注意！**_ ⚠️⚠️⚠️作业节点通常不能访问外网，请在登录节点使用如下命令预购建conda环境
-```
+```bash
 snakemake --cores 1 --use-conda --conda-create-envs-only 
 ```
 - fastqc
@@ -215,7 +214,7 @@ snakemake --cores 1 --use-conda --conda-create-envs-only
 <img width="792" alt="image" src="https://github.com/heihaheihaha/Call_variants_V1.0.0/assets/96468382/21bac703-e1d8-4037-ae21-45d5ce3e45e4">
 
 其命令规范是：(执行`fastqc -h`以查看详细说明)
-```
+```bash
 fastqc [-o output dir] [--(no)extract] [-f fastq|bam|sam] 
            [-c contaminant file] seqfile1 .. seqfileN
 ```
@@ -265,7 +264,7 @@ bwa [文档](https://bio-bwa.sourceforge.net/)
 该步骤识别并标记识别重复的Reads，在本流程中，我们使用的是`MarkDuplicatesSpark`，不需要向其指定线程数，Spark会自行分配并行利用可用计算资源（无需在本地或是集群上安装Spark）,MarkDuplicatesSpark会自动为bam文件创建索引，为减少报错和便于更改和维护，建议在生成`bam`文件的rule添加一个检查并添加索引的`rule`
 
 示例：
-```
+```bash
 gatk MarkDuplicatesSpark \
     -I V300102848.bam \ # Input file
     -O V300102848.markdup.bam # Output file
@@ -300,7 +299,7 @@ GATK [Base Quality Score Recalibration](https://gatk.broadinstitute.org/hc/en-us
 
 #### BaseRecalibrator
 BaseRecalibrator要求如下参数
-```
+```bash
 Required Arguments:
 --input,-I <GATKPath>         BAM/SAM/CRAM file containing reads  This argument must be specified at least once.Required. 
 --known-sites <FeatureInput>  One or more databases of known polymorphic sites used to exclude regions around known polymorphisms from analysis.  This argument must be specified at least once. Required. 
@@ -308,7 +307,7 @@ Required Arguments:
 --reference,-R <GATKPath>     Reference sequence file  Required. 
 ```
 示例
-```
+```bash
 # 注意BaseRecalibrator的输出是 .table 的文本文件
 gatk BaseRecalibrator \
     -I V300102848.markdup.bam \
@@ -317,7 +316,7 @@ gatk BaseRecalibrator \
     --known-sites /Volumes/ZHITAI/GATK_data/refs/Homo_sapiens_assembly38.dbsnp138.vcf.gz
 ```
 #### ApplyBQSR
-```
+```bash
 Required Arguments:
 
 --bqsr-recal-file,-bqsr <File>Input recalibration table for BQSR  Required. 
@@ -347,7 +346,7 @@ Required Arguments:
 
 ### HaplotypeCaller
 Required Arguments:
-```
+```bash
 --input,-I <GATKPath>         BAM/SAM/CRAM file containing reads  This argument must be specified at least once.
                               Required. 
 --output,-O <GATKPath>        File to which variants should be written  Required. 
@@ -355,7 +354,7 @@ Required Arguments:
 ```
 
 #### 关于`--emit-ref-confidence,-ERC`参数的设置
-```
+```bash
 --emit-ref-confidence,-ERC <ReferenceConfidenceMode>
                               Mode for emitting reference confidence scores (For Mutect2, this is a BETA feature) 
                               Default value: NONE. Possible values: {NONE, BP_RESOLUTION, GVCF} 
@@ -378,7 +377,7 @@ In summary, the `--emit-ref-confidence` option in HaplotypeCaller is crucial for
 [GATK](https://gatk.broadinstitute.org/hc/en-us)  [Technical Documentation](https://gatk.broadinstitute.org/hc/en-us/categories/360002310591-Technical-Documentation)  [Algorithms](https://gatk.broadinstitute.org/hc/en-us/sections/360007226771-Algorithms)[HaplotypeCaller Reference Confidence Model (GVCF mode) ](https://gatk.broadinstitute.org/hc/en-us/articles/360035531532-HaplotypeCaller-Reference-Confidence-Model-GVCF-mode-) 
 
 #### 关于`--interval-padding,-ip` 参数的设置
-```
+```bash
 --interval-padding,-ip <Integer>
                               Amount of padding (in bp) to add to each interval you are including.  Default value: 0.
 ```
@@ -419,7 +418,7 @@ GATK 关于设置Hard filtering参数的[建议](https://gatk.broadinstitute.org
 流程中参数默认设置如下：
 
 For SNP：
-```
+```bash
 --filter-expression 'QUAL<30.0' --filter-name 'LOW_QUAL' \\
 --filter-expression 'QD<2.0' --filter-name 'LOW_QD' \\
 --filter-expression 'FS>60.0' --filter-name 'HIGH_FS' \\
@@ -429,7 +428,7 @@ For SNP：
 --filter-expression 'SOR>3.0' --filter-name 'HIGH_SOR' \\
 ```
 For indel：
-```
+```bash
 --filter-expression 'QUAL<30.0' --filter-name 'LOW_QUAL' \\
 --filter-expression 'QD<2.0' --filter-name 'LOW_QD' \\
 --filter-expression 'FS>200.0' --filter-name 'HIGH_FS' \\
