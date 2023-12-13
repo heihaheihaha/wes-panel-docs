@@ -1,5 +1,8 @@
 ---
 layout: post
+title:  "Archived WES/panel documents"
+date:   2023-12-13 22:34:41 +0800
+categories: documents
 ---
 
 |修订历史            |修订原因|修订者|
