@@ -27,7 +27,7 @@ https://gatk.broadinstitute.org/hc/en-us/articles/360035890811-Resource-bundle
 # 4 Trio ID触发家系 DenovoCNN，共分离
 是否考虑非常规家系的共分离？
 
-> 待津臣老师意见
+> 津臣老师：先处理raw data 到vcf，家系的分析有现成的
 
 # 5 多样本（含Trio）输入触发 Jointcalling
 
