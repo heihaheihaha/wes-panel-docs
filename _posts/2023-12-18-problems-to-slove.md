@@ -19,15 +19,17 @@ b)	质控差
 > 需要Mark duplicates，加入该步骤，取消samtools sort
  
 # 3 BaseRecalibrator’s known site
+
 常用：更改为下述参数
 dbsnp_146.hg38.vcf.gz
 Homo_sapiens_assembly38.known_indels.vcf.gz
 Mills_and_1000G_gold_standard.indels.hg38.vcf.gz
 https://gatk.broadinstitute.org/hc/en-us/articles/360035890811-Resource-bundle
+
 # 4 Trio ID触发家系 DenovoCNN，共分离
 是否考虑非常规家系的共分离？
 
-> 津臣老师：先处理raw data 到vcf，家系的分析有现成的
+> 津臣老师：先处理raw data 到vcf，家系的分析有现成的脚本
 
 # 5 多样本（含Trio）输入触发 Jointcalling
 
